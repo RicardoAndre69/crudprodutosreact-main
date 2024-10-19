@@ -145,14 +145,14 @@ sequelize.sync({ force: true }) // Nota: use force: true apenas em desenvolvimen
     await Categoria.bulkCreate([
       { CategoryName: 'Eletrônicos' },
       { CategoryName: 'Roupas' },
-      { CategoryName: 'Alimentos' }
+      { CategoryName: 'Acessorios' }
     ]);
 
     // Adicionar alguns produtos de exemplo
     await Produto.bulkCreate([
-      { ProductName: 'Smartphone', Description: 'Último modelo', Unit: 'Unidade', Price: 999.99, CategoryID: 1 },
-      { ProductName: 'Camiseta', Description: 'Algodão', Unit: 'Unidade', Price: 29.99, CategoryID: 2 },
-      { ProductName: 'Arroz', Description: 'Pacote de 5kg', Unit: 'Pacote', Price: 15.99, CategoryID: 3 }
+      { ProductName: 'Smartphone', Description: 'Último modelo', Unit: '-', Price: 2000.00, CategoryID: 1 },
+      { ProductName: 'Camiseta', Description: 'Algodão', Unit: '-', Price: 49.99, CategoryID: 2 },
+      { ProductName: 'Anel', Description: 'Anel Prata', Unit: '-', Price: 180.00, CategoryID: 3 }
     ]);
 
     app.listen(port, () => {

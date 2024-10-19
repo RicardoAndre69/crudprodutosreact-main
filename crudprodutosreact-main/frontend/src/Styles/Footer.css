@@ -1,0 +1,18 @@
+footer {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
+    height: 8vh;
+    top: 3.99px;
+    background-color: #ffd900;
+}
+
+.copyright{
+    text-align: center;
+    padding: 2.5vh 0;
+    font-weight: bold;
+    color: #000;
+    font-size: 1.2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

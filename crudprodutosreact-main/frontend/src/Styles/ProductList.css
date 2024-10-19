@@ -1,0 +1,77 @@
+.product-list {
+    min-height: 40vh;
+    width: 90vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    color: #000;
+    text-align: start;
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.add-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #101a74;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: #ffd900;
+    color: #000;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-link {
+    text-decoration: none;
+    color: #101a74;
+    font-weight: bold;
+}
+
+.delete-button {
+    cursor: pointer;
+    background-color: #ce3434;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.error {
+    color: #ce3434;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}

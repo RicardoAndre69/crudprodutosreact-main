@@ -26,15 +26,32 @@ const Produto = sequelize.define('Produto', {
   ProductName: DataTypes.STRING,
   Description: DataTypes.STRING,
   Unit: DataTypes.STRING,
-  Price: DataTypes.FLOAT
+  Price: DataTypes.FLOAT,
+  CategoryID: DataTypes.INTEGER
 }, {
   timestamps: false
 });
 
+// Definição do modelo Categoria
+const Categoria = sequelize.define('Categoria', {
+  CategoryID: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  CategoryName: DataTypes.STRING
+}, {
+  timestamps: false
+});
+
+// Definir relação entre Produto e Categoria
+Produto.belongsTo(Categoria, { foreignKey: 'CategoryID' });
+Categoria.hasMany(Produto, { foreignKey: 'CategoryID' });
+
 // Rota para obter todos os produtos
 app.get('/produtos', async (req, res, next) => {
   try {
-    const produtos = await Produto.findAll();
+    const produtos = await Produto.findAll({ include: Categoria });
     res.json(produtos);
   } catch (error) {
     next(error);
@@ -44,7 +61,7 @@ app.get('/produtos', async (req, res, next) => {
 // Rota para obter um único produto
 app.get('/produtos/:id', async (req, res, next) => {
   try {
-    const produto = await Produto.findByPk(req.params.id);
+    const produto = await Produto.findByPk(req.params.id, { include: Categoria });
     if (produto) {
       res.json(produto);
     } else {
@@ -72,7 +89,7 @@ app.put('/produtos/:id', async (req, res, next) => {
       where: { ProductID: req.params.id }
     });
     if (updated) {
-      const updatedProduto = await Produto.findByPk(req.params.id);
+      const updatedProduto = await Produto.findByPk(req.params.id, { include: Categoria });
       res.json(updatedProduto);
     } else {
       res.status(404).json({ error: 'Produto não encontrado' });
@@ -98,6 +115,16 @@ app.delete('/produtos/:id', async (req, res, next) => {
   }
 });
 
+// Rota para obter todas as categorias
+app.get('/categorias', async (req, res, next) => {
+  try {
+    const categorias = await Categoria.findAll();
+    res.json(categorias);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Middleware de tratamento de erros
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -111,8 +138,23 @@ app.use((req, res) => {
 
 // Sincronize o modelo com o banco de dados e inicie o servidor
 sequelize.sync({ force: true }) // Nota: use force: true apenas em desenvolvimento
-  .then(() => {
+  .then(async () => {
     console.log('Banco de dados sincronizado');
+    
+    // Adicionar algumas categorias de exemplo
+    await Categoria.bulkCreate([
+      { CategoryName: 'Eletrônicos' },
+      { CategoryName: 'Roupas' },
+      { CategoryName: 'Alimentos' }
+    ]);
+
+    // Adicionar alguns produtos de exemplo
+    await Produto.bulkCreate([
+      { ProductName: 'Smartphone', Description: 'Último modelo', Unit: 'Unidade', Price: 999.99, CategoryID: 1 },
+      { ProductName: 'Camiseta', Description: 'Algodão', Unit: 'Unidade', Price: 29.99, CategoryID: 2 },
+      { ProductName: 'Arroz', Description: 'Pacote de 5kg', Unit: 'Pacote', Price: 15.99, CategoryID: 3 }
+    ]);
+
     app.listen(port, () => {
       console.log(`Servidor rodando em http://localhost:${port}`);
     });
